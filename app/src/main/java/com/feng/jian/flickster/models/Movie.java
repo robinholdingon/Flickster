@@ -15,12 +15,15 @@ public class Movie {
     String originalTitle;
     String overview;
     String backDropPath;
+    ItemType.TYPE type;
 
     public Movie(JSONObject jsonObject) throws JSONException{
         this.posterPath = jsonObject.getString("poster_path");
         this.originalTitle = jsonObject.getString("original_title");
         this.overview = jsonObject.getString("overview");
         this.backDropPath = jsonObject.getString("backdrop_path");
+        this.type = Double.valueOf(jsonObject.getString("vote_average")) > 7.0 ?
+                ItemType.TYPE.POPULAR : ItemType.TYPE.REGULAR;
     }
 
     public static ArrayList<Movie> fromJSONArray(JSONArray jsonArray) {
@@ -51,5 +54,9 @@ public class Movie {
 
     public String getBackDropPath() {
         return String.format("https://image.tmdb.org/t/p/w342%s", backDropPath);
+    }
+
+    public ItemType.TYPE getType() {
+        return type;
     }
 }

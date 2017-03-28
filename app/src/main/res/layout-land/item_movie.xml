@@ -5,14 +5,6 @@
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:weightSum="1">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="96dp"
-        tools:src="@mipmap/ic_launcher"
-        android:id="@+id/ivMovieImage"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
-
     <TextView
         tools:text="Captain America"
         android:layout_width="wrap_content"
@@ -20,7 +12,8 @@
         android:id="@+id/tvTitle"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/ivMovieImage" />
+        android:layout_toEndOf="@+id/ivMovieImage"
+        android:textColor="@android:color/white" />
 
     <TextView
         tools:text="Oh whatever"
@@ -28,5 +21,16 @@
         android:layout_height="wrap_content"
         android:id="@+id/tvOverview"
         android:layout_below="@+id/tvTitle"
-        android:layout_toEndOf="@+id/ivMovieImage" />
+        android:layout_toEndOf="@+id/ivMovieImage"
+        android:textColor="@android:color/white" />
+
+    <ImageView
+        tools:src="@mipmap/ic_launcher"
+        android:id="@+id/ivMovieImage"
+        android:scaleType="fitCenter"
+        android:layout_width="240dp"
+        android:layout_height="120dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:padding="5dp"/>
 </RelativeLayout>
