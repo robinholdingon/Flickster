@@ -30,7 +30,8 @@ public class MovieActivity extends AppCompatActivity {
         setContentView(R.layout.activity_movie);
         lvItems = (ListView) findViewById(R.id.lvMovies);
         movies = new ArrayList<>();
-        movieArrayAdapter = new MovieArrayAdapter(this, movies);
+
+        movieArrayAdapter = new MovieArrayAdapter(this, movies, getResources().getConfiguration().orientation);
         lvItems.setAdapter(movieArrayAdapter);
 
         String url = "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";

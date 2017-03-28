@@ -1,6 +1,7 @@
 package com.feng.jian.flickster.adapters;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,28 +21,52 @@ import java.util.List;
 
 public class MovieArrayAdapter extends ArrayAdapter<Movie>{
 
-    public MovieArrayAdapter(Context context, List<Movie> movies) {
-        super(context, android.R.layout.simple_list_item_1, movies);
+    private int orientation;
 
+    public static class ViewHolder {
+        TextView tvTitle;
+        TextView tvOverview;
+        ImageView ivImage;
+    }
+
+    public MovieArrayAdapter(Context context, List<Movie> movies, int orientation) {
+        super(context, android.R.layout.simple_list_item_1, movies);
+        this.orientation = orientation;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder viewHolder;
         Movie movie = getItem(position);
         if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.item_movie, parent, false);
+            viewHolder = new ViewHolder();
+
+            ImageView ivImage = (ImageView) convertView.findViewById(R.id.ivMovieImage);
+
+            // clear out image from last time
+            ivImage.setImageResource(0);
+
+            TextView tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
+            TextView tvOverview = (TextView) convertView.findViewById(R.id.tvOverview);
+
+            viewHolder.ivImage = ivImage;
+            viewHolder.tvTitle = tvTitle;
+            viewHolder.tvOverview = tvOverview;
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
         }
-        ImageView ivImage = (ImageView) convertView.findViewById(R.id.ivMovieImage);
-        // clear out image from last time
-        ivImage.setImageResource(0);
-        TextView tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
-        TextView tvOverview = (TextView) convertView.findViewById(R.id.tvOverview);
 
-        tvTitle.setText(movie.getOriginalTitle());
-        tvOverview.setText(movie.getOverview());
+        viewHolder.tvTitle.setText(movie.getOriginalTitle());
+        viewHolder.tvOverview.setText(movie.getOverview());
 
-        Picasso.with(getContext()).load(movie.getPosterPath()).into(ivImage);
+        Picasso.with(getContext()).load(getImagePathForOrientation(orientation, movie)).into(viewHolder.ivImage);
         return convertView;
+    }
+
+    private String getImagePathForOrientation(int orientation, Movie movie) {
+        return orientation == Configuration.ORIENTATION_PORTRAIT ? movie.getPosterPath() : movie.getBackDropPath();
     }
 }
